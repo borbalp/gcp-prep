@@ -1,0 +1,803 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>GCP Resources and Services - GCP Exam Materials</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../src/book.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">External Resources</li><li class="chapter-item expanded "><a href="../external_resources/practice_tests.html"><strong aria-hidden="true">1.</strong> Practice Tests</a></li><li class="chapter-item expanded "><a href="../external_resources/optional_resources.html"><strong aria-hidden="true">2.</strong> Optional Resources</a></li><li class="chapter-item expanded affix "><li class="part-title">Notes</li><li class="chapter-item expanded "><a href="../notes/resources_and_services.html" class="active"><strong aria-hidden="true">3.</strong> GCP Resources and Services</a></li><li class="chapter-item expanded "><a href="../notes/common_roles.html"><strong aria-hidden="true">4.</strong> Common GCP Roles</a></li><li class="chapter-item expanded "><a href="../notes/resource_cheat_sheet.html"><strong aria-hidden="true">5.</strong> GCP Resource Cheat Sheet</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GCP Exam Materials</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="gcp-resources-and-services"><a class="header" href="#gcp-resources-and-services">GCP Resources and Services</a></h1>
+<h3 id="kubernetes"><a class="header" href="#kubernetes">Kubernetes</a></h3>
+<ul>
+<li><strong>Features</strong>
+<ul>
+<li>Can be configured to automatically scale node pools and clusters across multiple node pools based on changing workload requirements.</li>
+<li>Auto-repair can be enabled to perform health checks on nodes.</li>
+<li>Cloud Logging and Cloud Monitoring can be enabled via simple checkbox configurations.</li>
+<li>Kubernetes version can be set to auto-upgrade with the latest release patch.</li>
+<li>Supports Docker container format.</li>
+<li>Integrates with Google Container Registry, allowing easy access to private Docker images.</li>
+</ul>
+</li>
+<li><strong>kubectl</strong>
+<ul>
+<li>The main CLI tool for running commands and managing Kubernetes clusters.</li>
+</ul>
+</li>
+<li><strong>Cluster</strong>
+<ul>
+<li>All of the Kubernetes objects that represent your containerized applications run on top of a cluster.</li>
+</ul>
+</li>
+<li><strong>Node</strong>
+<ul>
+<li>Nodes are the worker machines that run your containerized applications and other workloads.</li>
+<li>A cluster typically has one or more nodes.</li>
+<li>Kubernetes runs your workload by placing containers into pods that run on nodes.</li>
+</ul>
+</li>
+<li><strong>Node Pool</strong>
+<ul>
+<li>A node pool is a set of nodes within a cluster that have similar configurations.</li>
+</ul>
+</li>
+<li><strong>Cluster Autoscaler</strong>
+<ul>
+<li>Cluster Autoscaler automatically resizes the number of nodes in a given node pool based on the demands of your workloads.</li>
+</ul>
+</li>
+<li><strong>Kubernetes API Objects</strong>
+<ul>
+<li><strong>Pods</strong>
+<ul>
+<li>The smallest deployable units of computing that you can create and manage in Kubernetes.</li>
+<li>Every pod has its own IP address.</li>
+</ul>
+</li>
+<li><strong>Deployment</strong>
+<ul>
+<li>Describes the desired state in a deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate.</li>
+</ul>
+</li>
+<li><strong>Service</strong>
+<ul>
+<li>Acts as a load balancer to distribute traffic across a set of pods.</li>
+<li>Types of services:
+<ul>
+<li><strong>ClusterIP:</strong> Exposes the service on a cluster-internal IP.</li>
+<li><strong>NodePort:</strong> Exposes the service on each node’s IP at a static port (the NodePort).</li>
+<li><strong>Load Balancer:</strong> Exposes the service externally using a cloud provider’s load balancer.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Workload Resources</strong>
+<ul>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/"><strong>ReplicaSet</strong></a>
+<ul>
+<li>Maintains a stable set of replica pods running at any given time to ensure availability.</li>
+</ul>
+</li>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"><strong>StatefulSets</strong></a>
+<ul>
+<li>Manages stateful applications, ensuring the ordering and uniqueness of pods.</li>
+<li>Maintains a sticky identity for each pod, which is not interchangeable.</li>
+</ul>
+</li>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/"><strong>DaemonSet</strong></a>
+<ul>
+<li>Ensures that all (or some) nodes run a copy of a pod.</li>
+<li>As nodes are added or removed from the cluster, pods are added or garbage collected accordingly.</li>
+</ul>
+</li>
+<li><strong>ConfigMaps</strong>
+<ul>
+<li>Allows separation of configuration data from application code, keeping workloads portable.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>GKE Sandbox</strong>
+<ul>
+<li>Provides an additional layer of security between containerized workloads on GKE using gVisor.</li>
+<li>Cannot be enabled on a default node pool and requires at least two node pools.</li>
+<li>Does not support accelerations such as GPUs or TPUs.</li>
+</ul>
+</li>
+<li><strong>Autopilot</strong>
+<ul>
+<li>Manages node pool configuration, Autoscaler configuration, overall cluster configuration (network, logging, monitoring), and network and pod security policies.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="compute-engine"><a class="header" href="#compute-engine">Compute Engine</a></h3>
+<ul>
+<li><strong>Instance Groups</strong>
+<ul>
+<li>A set of virtual machine instances that you can manage as a single entity.
+<ul>
+<li><strong>Managed Instance Groups (MIG)</strong>
+<ul>
+<li>Operates apps on multiple identical VMs.</li>
+<li>Supports autoscaling, auto-healing, regional deployment, and automatic updating.</li>
+<li>Can perform auto-healing by triggering health checks and recreating unhealthy instances.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Preemptible Instances</strong>
+<ul>
+<li>VMs that can be provisioned at a lower price point than regular instances.</li>
+<li>Compute Engine might stop preemptible instances at any time due to system events.</li>
+<li>Suitable for fault-tolerant applications that can handle instance preemption.</li>
+</ul>
+</li>
+<li><strong>Sole-tenant Nodes</strong>
+<ul>
+<li>A physical Compute Engine server dedicated exclusively for your use.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="app-engine"><a class="header" href="#app-engine">App Engine</a></h3>
+<ul>
+<li><strong>Standard and Flexible Environment</strong>
+<ul>
+<li><strong>Standard</strong>
+<ul>
+<li>Based on container instances running on Google’s infrastructure.</li>
+</ul>
+</li>
+<li><strong>Flexible</strong>
+<ul>
+<li>Allows management of the underlying compute infrastructure.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Scaling</strong>
+<ul>
+<li><strong>Basic</strong>
+<ul>
+<li>Creates instances when your application receives requests.</li>
+<li>Instances shut down when the application is idle.</li>
+</ul>
+</li>
+<li><strong>Automatic Scaling</strong>
+<ul>
+<li>Creates instances based on request rate, response latencies, or specified application metrics.</li>
+</ul>
+</li>
+<li><strong>Manual Scaling</strong>
+<ul>
+<li>Allows manual specification of the number of instances that continuously run, regardless of load level.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="cloud-functions"><a class="header" href="#cloud-functions">Cloud Functions</a></h3>
+<ul>
+<li><strong>Features</strong>
+<ul>
+<li>Serverless execution environment for building and connecting cloud services.</li>
+<li>Automatically scales down to zero when not in use, saving costs.</li>
+<li>Supports various programming languages such as Node.js, Python, Go, and more.</li>
+<li>Can be triggered by HTTP requests, Cloud Pub/Sub, Cloud Storage, and other event sources.</li>
+</ul>
+</li>
+<li><strong>Limits</strong>
+<ul>
+<li>The maximum timeout duration is 60 minutes (3600 seconds) for HTTP functions and 9 minutes (540 seconds) for event-driven functions.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="cloud-storage"><a class="header" href="#cloud-storage">Cloud Storage</a></h3>
+<ul>
+<li><a href="https://cloud.google.com/storage/docs/storage-classes">Cloud Storage Classes</a></li>
+<li><strong>Bucket Configurations</strong>
+<ul>
+<li><strong>Life Cycle Management</strong>
+<ul>
+<li>Define conditions that trigger data deletion or transition to a cheaper storage class.</li>
+</ul>
+</li>
+<li><strong>Versioning</strong>
+<ul>
+<li>Store old copies of objects when they are deleted or overwritten.</li>
+</ul>
+</li>
+<li><strong>Retention Policies</strong>
+<ul>
+<li>Define minimum retention periods for storing objects.</li>
+</ul>
+</li>
+<li><strong>Object Holds</strong>
+<ul>
+<li>Place an object on hold to prevent deletion.</li>
+</ul>
+</li>
+<li><strong>Encryption Keys</strong>
+<ul>
+<li>Customer-managed or customer-supplied encryption keys.</li>
+</ul>
+</li>
+<li><strong>Access Permissions</strong>
+<ul>
+<li>Access Control List (ACL), uniform bucket-level access, and object and bucket-level permissions.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Uploading Objects to Google Cloud Storage</strong>
+<ul>
+<li><strong>Simple Upload</strong>
+<ul>
+<li>Suitable for small files with no metadata requirements.</li>
+</ul>
+</li>
+<li><strong>Multipart Upload</strong>
+<ul>
+<li>Suitable for small files requiring metadata.</li>
+</ul>
+</li>
+<li><strong>Resumable Upload</strong>
+<ul>
+<li>Suitable for large files, offering a more reliable transfer.</li>
+</ul>
+</li>
+<li><a href="https://cloud.google.com/storage/docs/parallel-composite-uploads"><strong>Parallel Composite Upload</strong></a>
+<ul>
+<li>Suitable for high-speed networks and large files, uploading in parallel chunks.</li>
+</ul>
+</li>
+<li><strong>Transfer Appliance</strong>
+<ul>
+<li>Hardware appliance for securely migrating large volumes of data (hundreds of terabytes to 1 petabyte) without disrupting operations.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="databases"><a class="header" href="#databases">Databases</a></h3>
+<ul>
+<li><a href="https://cloud.google.com/blog/topics/developers-practitioners/your-google-cloud-database-options-explained">Google Cloud Database Options</a></li>
+<li><strong>Relational</strong>
+<ul>
+<li><strong>Cloud SQL</strong>
+<ul>
+<li>Managed MySQL, PostgreSQL, and SQL Server.</li>
+<li>Suitable for general-purpose SQL databases.</li>
+<li>Point-in-time recovery (PITR) uses binary logs.</li>
+</ul>
+</li>
+<li><strong>Cloud Spanner</strong>
+<ul>
+<li>Cloud-native with large scale, consistency, and horizontal scaling.</li>
+<li>Suitable for RDBMS+ scale, high availability (HA), and hybrid transactional/analytical processing (HTAP).</li>
+<li>Avoid using incremental keys for optimal performance: Using sequential or incremental primary keys can lead to hotspots. It is recommended to use a more random distribution for primary keys to ensure balanced load distribution.</li>
+</ul>
+</li>
+<li><strong>Bare Metal</strong>
+<ul>
+<li>Lift and shift Oracle workloads to Google Cloud.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Non-Relational (NoSQL)</strong>
+<ul>
+<li><strong>Firestore</strong>
+<ul>
+<li>Serverless, NoSQL document database, backend-as-a-service.</li>
+<li>Suitable for large-scale, complex hierarchical data.</li>
+</ul>
+</li>
+<li><strong>Cloud BigTable</strong>
+<ul>
+<li>NoSQL wide-column store for large-scale, low-latency workloads.</li>
+<li>Suitable for heavy read/write events.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>In-Memory</strong>
+<ul>
+<li><strong>Memory Store</strong>
+<ul>
+<li>Fully managed Redis and Memcached for sub-millisecond data access.</li>
+<li>Suitable for in-memory and key-value store.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="virtual-private-cloud-vpc"><a class="header" href="#virtual-private-cloud-vpc">Virtual Private Cloud (VPC)</a></h3>
+<ul>
+<li><a href="https://cloud.google.com/vpc/docs/shared-vpc">Shared VPC</a>
+<ul>
+<li>Allows an organization to connect resources from multiple projects to a common VPC network, enabling secure and efficient internal communication using internal IPs.</li>
+</ul>
+</li>
+<li><a href="https://cloud.google.com/vpc/docs/vpc-peering">VPC Network Peering</a>
+<ul>
+<li>Enables connectivity between two VPC networks, even if they are in different projects or organizations.</li>
+</ul>
+</li>
+<li><a href="https://cloud.google.com/load-balancing/docs/choosing-load-balancer">Load Balancers</a>
+<ul>
+<li>Distributes user traffic across multiple instances of your applications, reducing the risk of performance issues.</li>
+</ul>
+</li>
+<li><strong>Cloud VPN vs. Cloud Interconnect</strong>
+<ul>
+<li><strong>Cloud Interconnect</strong>
+<ul>
+<li>Provides low-latency and high availability for data transfer between on-premises and VPC networks.</li>
+<li><strong>Dedicated Interconnect:</strong> Direct physical connection between your on-premises network and Google's network.</li>
+<li><strong>Partner Interconnect:</strong> Connectivity through a supported service provider.</li>
+</ul>
+</li>
+<li><strong>Cloud VPN</strong>
+<ul>
+<li>Sets up IPSec VPN tunnels between your networks if low-latency and high availability are not required.</li>
+<li>Requires only a VPN device in your on-premises network.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="cloud-dns"><a class="header" href="#cloud-dns">Cloud DNS</a></h3>
+<ul>
+<li><strong>Features</strong>
+<ul>
+<li>Managed DNS service that allows you to publish your domain name to the global DNS.</li>
+<li>Supports creating and managing DNS zones and records.</li>
+<li>Provides low-latency, high-availability DNS serving from Google’s worldwide network of Anycast name servers.</li>
+</ul>
+</li>
+<li><strong>DNS Records</strong>
+<ul>
+<li><strong>A Records</strong>
+<ul>
+<li>Maps a domain name to an IPv4 address.</li>
+<li>Used to point your domain to the IP address of your web server or hosting.</li>
+</ul>
+</li>
+<li><strong>CNAME Records</strong>
+<ul>
+<li>Maps a domain name to another domain name (canonical name).</li>
+<li>Often used to alias a subdomain (<code>www</code>, <code>home</code>, etc.) to another domain or to point to the domain of another service provider (e.g., GitHub Pages, AWS S3).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="cloud-logging"><a class="header" href="#cloud-logging">Cloud Logging</a></h3>
+<ul>
+<li><strong>Features</strong>
+<ul>
+<li>Write custom logs from any source into Cloud Logging using public write APIs.</li>
+<li>Integrates with Cloud Monitoring to set alerts on log events and logs-based metrics.</li>
+<li>Export data in real-time to BigQuery for advanced analytics and SQL-like query tasks.</li>
+<li>Use Error Reporting to automatically analyze logs for exceptions and aggregate them into meaningful error groups.</li>
+</ul>
+</li>
+<li><strong>Cloud Audit Logs</strong>
+<ul>
+<li><strong>Admin Activity Logs</strong>
+<ul>
+<li>Log entries for API calls or administrative actions that modify configuration or metadata of resources.</li>
+<li>Viewable with IAM roles <em>logging/logs.viewer</em> or <em>project/viewer</em>.</li>
+<li>Always written and cannot be disabled.</li>
+</ul>
+</li>
+<li><strong>Data Access Logs</strong>
+<ul>
+<li>Log entries for API calls that read configuration or metadata of resources.</li>
+<li>Viewable with IAM roles <em>logging/private.logs.viewer</em> or <em>project/owner</em>.</li>
+<li>Must be explicitly enabled; disabled by default.</li>
+</ul>
+</li>
+<li><strong>System Event Logs</strong>
+<ul>
+<li>Log entries for administrative actions taken by Google Cloud.</li>
+<li>Always written and cannot be disabled.</li>
+</ul>
+</li>
+<li><strong>Exporting Audit Logs</strong>
+<ul>
+<li>Export log entries to Cloud Storage, BigQuery, or Pub/Sub.</li>
+<li>Create a logs sink and specify the audit log types to export.</li>
+<li>For exporting log entries for an organization, folder, or billing account, review aggregated sinks.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="cloud-monitoring"><a class="header" href="#cloud-monitoring">Cloud Monitoring</a></h3>
+<ul>
+<li><strong>Workspaces</strong>
+<ul>
+<li>Manage monitoring data for a single Google Cloud project or multiple Google Cloud projects and AWS accounts.</li>
+<li>A Google Cloud project or an AWS account can only be associated with one Workspace at a time.</li>
+<li>Required IAM roles for creating a Workspace:
+<ul>
+<li>Monitoring Editor</li>
+<li>Monitoring Admin</li>
+<li>Project Owner</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Cloud Monitoring Agent</strong>
+<ul>
+<li>A <code>collectd</code>-based daemon that collects application and system metrics from virtual machine instances.</li>
+<li>Collects disk, network, CPU, and process metrics by default.</li>
+<li>Can be configured to monitor third-party applications.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="cloud-iam"><a class="header" href="#cloud-iam">Cloud IAM</a></h3>
+<ul>
+<li><strong>Features</strong>
+<ul>
+<li>Authorize specific actions on resources to maintain full control and visibility of Google Cloud services.</li>
+<li>Permissions are represented in the form <em>service.resource.verb</em>.</li>
+</ul>
+</li>
+<li><strong>Roles</strong>
+<ul>
+<li>A role contains a set of permissions that allow specific actions on Google Cloud resources.</li>
+<li>Users are granted roles, not direct permissions.</li>
+<li>Types of roles:
+<ul>
+<li><strong>Basic Roles:</strong> Owner, Editor, Viewer.</li>
+<li><strong>Predefined Roles:</strong> Granular access for specific services, managed by Google Cloud.</li>
+<li><strong>Custom Roles:</strong> User-defined list of permissions for granular access.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Service Accounts</strong>
+<ul>
+<li>Used by applications or virtual machine instances, not people.</li>
+<li>Applications use service accounts to make authorized API calls.</li>
+<li>Service accounts have associated public/private RSA key pairs for authentication.</li>
+<li>Types of service accounts:
+<ul>
+<li><strong>User-managed Service Accounts</strong></li>
+<li><strong>Default Service Accounts</strong>
+<ul>
+<li>Created by Google when using Google Cloud services.</li>
+<li>A service account is also a resource with IAM policies attached.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Best Practices</strong>
+<ul>
+<li>Enforce least privilege at all times.</li>
+<li>Mirror your Google Cloud resource hierarchy structure to your organization structure.</li>
+<li>Set policies at the organization level and project level rather than the resource level.</li>
+<li>Manage members in Google groups for easier policy updates.</li>
+<li>Rotate service account keys using the IAM service account API.</li>
+<li>Use user-managed service accounts for production workloads instead of default service accounts.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="cloud-billing"><a class="header" href="#cloud-billing">Cloud Billing</a></h3>
+<ul>
+<li><strong>Cloud Billing Account</strong>
+<ul>
+<li>Access control established by IAM roles.</li>
+</ul>
+</li>
+<li><strong>Google Payments Profile</strong>
+<ul>
+<li>Stores information about who is responsible for the profile.</li>
+<li>Serves as a document center for viewing invoices and payment history.</li>
+</ul>
+</li>
+<li><strong>Cloud Billing Reports</strong>
+<ul>
+<li>View Google Cloud usage costs and analyze trends.</li>
+<li>Forecast future costs up to 12 months in advance.</li>
+</ul>
+</li>
+<li><strong>Cloud Billing Budgets</strong>
+<ul>
+<li>Define the scope of the budget to apply to:
+<ul>
+<li>Entire Cloud Billing account.</li>
+<li>One or more projects.</li>
+<li>One or more products.</li>
+<li>Other applicable budget filters.</li>
+</ul>
+</li>
+<li>Specify the budget amount based on requirements or previous month’s spend.</li>
+<li>Set up email alerts for budget notifications:
+<ul>
+<li>Role-based option for billing admins and users.</li>
+<li>Use Cloud Monitoring to notify other organization members.</li>
+<li>Use Pub/Sub for programmatic notification.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Overview of Cloud Billing Roles in IAM</strong>
+<ul>
+<li><strong>Billing Account Creator (roles/billing.creator)</strong>
+<ul>
+<li>Create new self-service billing accounts.</li>
+<li>Assigned at the organization level.</li>
+<li>Required for initial billing setup or creating additional billings.</li>
+</ul>
+</li>
+<li><strong>Billing Account Administrator (roles/billing.admin)</strong>
+<ul>
+<li>Manage billing accounts (excluding creation).</li>
+<li>Assigned at the organization level or billing account.</li>
+<li>Manage payment instruments, configure billing exports, view cost information, link/unlink projects, and manage user roles on the billing account.</li>
+</ul>
+</li>
+<li><strong>Billing Account User (roles/billing.user)</strong>
+<ul>
+<li>Link projects to billing accounts.</li>
+<li>Assigned at the organization level or billing account.</li>
+<li>Restricted permissions, typically combined with Project Creator role.</li>
+</ul>
+</li>
+<li><strong>Billing Account Viewer</strong>
+<ul>
+<li>View billing account cost information and transactions.</li>
+<li>Assigned at the organization level or billing account.</li>
+<li>Usually granted to finance teams for spend information access.</li>
+</ul>
+</li>
+<li><strong>Project Billing Manager (roles/billing.projectManager)</strong>
+<ul>
+<li>Link/unlink projects to/from a billing account.</li>
+<li>Assigned at the organization level or billing account.</li>
+<li>Allows project attachment to billing accounts without resource access.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../external_resources/optional_resources.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../notes/common_roles.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../external_resources/optional_resources.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../notes/common_roles.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
