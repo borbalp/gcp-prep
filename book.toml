@@ -1,0 +1,9 @@
+[book]
+authors = ["borbalp"]
+language = "en"
+multilingual = false
+src = "src"
+title = "GCP Exam Materials"
+
+[output.html]
+additional-css = ["src/book.css"]
