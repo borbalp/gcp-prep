@@ -3,6 +3,7 @@
 [Introduction](./introduction.md)
 
 # External Resources
+
 - [Practice Tests](./external_resources/practice_tests.md)
 - [Optional Resources](./external_resources/optional_resources.md)
 
