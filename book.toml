@@ -6,5 +6,5 @@ src = "src"
 title = "GCP Exam Materials"
 
 [output.html]
-theme = "src/theme"
+theme = "src/theme/full"
 additional-css = ["src/book.css"]
