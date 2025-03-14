@@ -25,6 +25,7 @@
     - **Pods**
         - The smallest deployable units of computing that you can create and manage in Kubernetes.
         - Every pod has its own IP address.
+        - Every pod can run multiple containers.
     - **Deployment**
         - Describes the desired state in a deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate.
     - **Service**
