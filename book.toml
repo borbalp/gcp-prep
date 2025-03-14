@@ -7,5 +7,5 @@ title = "GCP Exam Materials"
 
 [output.html]
 additional-css = ["src/book.css"]
-site-url = "/gcp-prep/"
+site-url = "https://borbalp.github.io/gcp-prep/"
 git-repository-url = "https://github.com/borbalp/gcp-prep"
