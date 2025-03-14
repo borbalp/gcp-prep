@@ -9,3 +9,4 @@ title = "GCP Exam Materials"
 theme = "src/theme/full"
 additional-css = ["src/book.css"]
 site-url = "/gcp-prep/"
+git-repository-url = "https://github.com/borbalp/gcp-prep"
