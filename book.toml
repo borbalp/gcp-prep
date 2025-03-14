@@ -8,3 +8,4 @@ title = "GCP Exam Materials"
 [output.html]
 theme = "src/theme/full"
 additional-css = ["src/book.css"]
+site-url = "/gcp-prep/"
